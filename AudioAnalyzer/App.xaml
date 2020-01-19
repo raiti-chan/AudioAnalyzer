@@ -1,0 +1,9 @@
+﻿<Application x:Class="AudioAnalyzer.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AudioAnalyzer"
+             StartupUri="UI/AudioAnalyzerWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
