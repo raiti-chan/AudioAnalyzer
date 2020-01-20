@@ -10,12 +10,12 @@
 		<vm:AudioAnalyzerViewModel/>
 	</Window.DataContext>
 	<Grid>
-		<StackPanel HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100">
+		<StackPanel HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100">
 			<Label Content="音声ファイル名 :" VerticalAlignment="Top" RenderTransformOrigin="0.605,-3.615" HorizontalAlignment="Right" Width="86"/>
 			<Label Content="サンプリングレート :" HorizontalAlignment="Right" VerticalAlignment="Top"/>
 			<Label Content="音声の長さ(秒) :" VerticalAlignment="Top" HorizontalAlignment="Right" Width="89"/>
 		</StackPanel>
-		<StackPanel Height="100" Margin="110,10,90,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+		<StackPanel Margin="110,10,90,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="76">
 			<Label Content="{Binding FileName}" Margin="0,0,-491,0" VerticalAlignment="Top"/>
 			<Label Content="{Binding SamplingRate}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 			<Label Content="{Binding MusicLength}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
