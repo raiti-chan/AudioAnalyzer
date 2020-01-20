@@ -63,7 +63,7 @@ namespace AudioAnalyzer {
 			this.audioStream.Read(audioData, 0, audioData.Length);
 			AudioTexture texture = new AudioTexture();
 
-			/*
+			
 			int fftPos = 0;
 			int putPix = 0;
 			for (int i = 0; i < audioData.Length; i++) {
@@ -84,8 +84,8 @@ namespace AudioAnalyzer {
 				}
 				
 			}
-			*/
-
+			
+			/*
 			int pixcel = audioData.Length / 8192;
 			int pixcelIndex = 0;
 			for (int i = 0; i < audioData.Length; i+= pixcel) {
@@ -109,7 +109,7 @@ namespace AudioAnalyzer {
 				pixcelIndex++;
 				progress.Report((int)((double)i / audioData.Length * 100));
 			}
-			
+			*/
 
 			texture.SaveTexture(@"./test.png");
 			progress.Report(0);

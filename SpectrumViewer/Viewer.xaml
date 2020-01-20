@@ -1,0 +1,34 @@
+﻿<Window x:Class="SpectrumViewer.Viewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpectrumViewer"
+        mc:Ignorable="d"
+        Title="SpectrumViewer" Height="450" Width="800">
+	<Grid Background="Black">
+		<Grid.Effect>
+			<local:CustomShaderEffect x:Name="shader" Seq="0.0">
+				<local:CustomShaderEffect.AudioTex>
+					<ImageBrush ImageSource="./test.png"/>
+				</local:CustomShaderEffect.AudioTex>
+			</local:CustomShaderEffect>
+		</Grid.Effect>
+		<Grid.Triggers>
+			<EventTrigger RoutedEvent="Grid.Loaded">
+				<BeginStoryboard>
+					<Storyboard>
+						<DoubleAnimation
+							Storyboard.TargetName="shader"
+							Storyboard.TargetProperty="Seq"
+							From="0"
+							To="1"
+							Duration="0:3:18"
+							/>
+					</Storyboard>
+				</BeginStoryboard>
+			</EventTrigger>
+		</Grid.Triggers>
+		<MediaElement Source="./インドア系ならトラックメイカー.mp3" Margin="232,351,560,68" Stretch="Fill"/>
+	</Grid>
+</Window>
