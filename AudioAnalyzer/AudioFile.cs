@@ -38,7 +38,10 @@ namespace AudioAnalyzer {
 		/// </summary>
 		public int MusicLength => (int)Math.Ceiling((double)this.audioStream.Length / this.audioStream.WaveFormat.AverageBytesPerSecond);
 
-
+		/// <summary>
+		/// 音声ファイルから生成されたテクスチャ
+		/// </summary>
+		public AudioTexture AudioTexture { get; private set; }
 
 		#endregion
 
@@ -63,7 +66,7 @@ namespace AudioAnalyzer {
 			this.audioStream.Read(audioData, 0, audioData.Length);
 			AudioTexture texture = new AudioTexture();
 
-			
+			/*
 			int fftPos = 0;
 			int putPix = 0;
 			for (int i = 0; i < audioData.Length; i++) {
@@ -84,8 +87,8 @@ namespace AudioAnalyzer {
 				}
 				
 			}
+			*/
 			
-			/*
 			int pixcel = audioData.Length / 8192;
 			int pixcelIndex = 0;
 			for (int i = 0; i < audioData.Length; i+= pixcel) {
@@ -99,19 +102,22 @@ namespace AudioAnalyzer {
 				int m = (int)Math.Log(blockLength, 2.0);
 				FastFourierTransform.FFT(true, m, buffer);
 
-				for (int j = 0; j < buffer.Length / 2; j++) {
+				double[] levels = new double[buffer.Length / 2];
+				for (int j = 0; j < levels.Length; j++) {
 					double diagonal = Math.Sqrt(buffer[j].X * buffer[j].X + buffer[j].Y * buffer[j].Y);
 					double intensityDB = 10.0 * Math.Log(diagonal);
 					double percent = 1.0 - ((intensityDB < -60.0) ? 1.0 : intensityDB / -60.0);
+					levels[j] = percent;
 					texture.Put(pixcelIndex, j, percent);
-
 				}
+				//texture.Put(pixcelIndex, levels);
 				pixcelIndex++;
 				progress.Report((int)((double)i / audioData.Length * 100));
 			}
-			*/
+			
 
 			texture.SaveTexture(@"./test.png");
+			this.AudioTexture = texture;
 			progress.Report(0);
 
 		});

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace AudioAnalyzer.UI.Command {
@@ -50,6 +51,7 @@ namespace AudioAnalyzer.UI.Command {
 
 			await model.AudioFile.ExportTextureAsync(progress);
 
+			MessageBox.Show("テクスチャの書き出しが完了しました。", "", MessageBoxButton.OK, MessageBoxImage.Information);
 			model.IsEnableUI = true;
 			model.OnPropertyChanded(nameof(model.IsEnableUI));
 		}

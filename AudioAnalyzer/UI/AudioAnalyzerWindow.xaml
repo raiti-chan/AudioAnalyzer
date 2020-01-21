@@ -4,28 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:vm ="clr-namespace:AudioAnalyzer.UI"
+		xmlns:effect="clr-namespace:AudioAnalyzer.UI.Effect"
         mc:Ignorable="d"
-        Title="AudioAnalyzer" Height="450" Width="800">
+        Title="AudioAnalyzer" Height="600" Width="1200">
 	<Window.DataContext>
 		<vm:AudioAnalyzerViewModel/>
 	</Window.DataContext>
 	<Grid>
-		<StackPanel HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100">
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition Height="43"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="400"/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<StackPanel HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" Height="78">
 			<Label Content="音声ファイル名 :" VerticalAlignment="Top" RenderTransformOrigin="0.605,-3.615" HorizontalAlignment="Right" Width="86"/>
 			<Label Content="サンプリングレート :" HorizontalAlignment="Right" VerticalAlignment="Top"/>
 			<Label Content="音声の長さ(秒) :" VerticalAlignment="Top" HorizontalAlignment="Right" Width="89"/>
 		</StackPanel>
-		<StackPanel Margin="110,10,90,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="76">
-			<Label Content="{Binding FileName}" Margin="0,0,-491,0" VerticalAlignment="Top"/>
+		<StackPanel Margin="110,10,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="76">
+			<Label Content="{Binding FileName}" Margin="0,0,-491,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 			<Label Content="{Binding SamplingRate}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 			<Label Content="{Binding MusicLength}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 		</StackPanel>
-		<StackPanel IsEnabled="{Binding IsEnableUI}" HorizontalAlignment="Left" Margin="10,0,0,10" Orientation="Horizontal" Height="23" VerticalAlignment="Bottom">
-			<Button Content="開く" Command="{Binding SelectAudioFile}" CommandParameter="{Binding Model}" HorizontalAlignment="Left" Width="75" Height="23" VerticalAlignment="Bottom"/>
-			<Button Content="テクスチャの書き出し" Command="{Binding ExportTexture}" CommandParameter="{Binding Model}" HorizontalAlignment="Left" Margin="10,0,-14,0" Width="114" Height="23" VerticalAlignment="Bottom"/>
+		<StackPanel IsEnabled="{Binding IsEnableUI}" HorizontalAlignment="Left" Margin="10,10,0,10" Orientation="Horizontal" Width="185" Grid.Row="1">
+			<Button Content="開く" Command="{Binding SelectAudioFile}" CommandParameter="{Binding Model}" HorizontalAlignment="Left" Width="75"/>
+			<Button Content="テクスチャの書き出し" Command="{Binding ExportTexture}" CommandParameter="{Binding Model}" HorizontalAlignment="Left" Margin="10,0,-14,0" Width="114"/>
 		</StackPanel>
-		
-		<ProgressBar Value="{Binding Progress, Mode=OneWay}" Margin="225,0,10,10" Height="23" VerticalAlignment="Bottom"/>
 
+		<ProgressBar Value="{Binding Progress, Mode=OneWay}" Margin="225,10,7,10" Grid.Row="1"/>
+		<Button Content="プレビュー" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,10" Grid.Row="1" Width="73" />
+		<Grid Grid.Column="1" Background="Black">
+			<Rectangle Grid.Column="1" Fill="Black" Stroke="Black" Visibility="Hidden">
+				<Rectangle.Effect>
+					<effect:SpectrumAnalyzerEffect ShaderFile=".\SimpleSpectrumAnalyzer.ps" Seq="0">
+					</effect:SpectrumAnalyzerEffect>
+				</Rectangle.Effect>
+			</Rectangle>
+		</Grid>
 	</Grid>
 </Window>

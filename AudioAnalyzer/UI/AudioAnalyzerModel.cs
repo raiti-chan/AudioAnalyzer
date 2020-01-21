@@ -26,6 +26,8 @@ namespace AudioAnalyzer.UI {
 		/// </summary>
 		public bool IsEnableUI { get; set; } = true;
 
+
+
 		#endregion
 
 		#region Command

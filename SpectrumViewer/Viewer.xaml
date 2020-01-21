@@ -10,7 +10,7 @@
 		<Grid.Effect>
 			<local:CustomShaderEffect x:Name="shader" Seq="0.0">
 				<local:CustomShaderEffect.AudioTex>
-					<ImageBrush ImageSource="./test.png"/>
+					<ImageBrush ImageSource="./sample.png"/>
 				</local:CustomShaderEffect.AudioTex>
 			</local:CustomShaderEffect>
 		</Grid.Effect>
