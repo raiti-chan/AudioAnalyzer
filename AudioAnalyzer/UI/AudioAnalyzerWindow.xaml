@@ -5,44 +5,99 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:vm ="clr-namespace:AudioAnalyzer.UI"
 		xmlns:effect="clr-namespace:AudioAnalyzer.UI.Effect"
+		xmlns:custom="clr-namespace:AudioAnalyzer.UI.CustomControl"
         mc:Ignorable="d"
         Title="AudioAnalyzer" Height="600" Width="1200">
 	<Window.DataContext>
 		<vm:AudioAnalyzerViewModel/>
 	</Window.DataContext>
+	<Window.Resources>
+		<Storyboard x:Key="ShaderAnimationStoryBoard" FillBehavior="HoldEnd">
+			<DoubleAnimation 
+				Storyboard.TargetName="PreviewShader"
+				Storyboard.TargetProperty="Seq"
+				From="0"
+				To="1"
+				Duration="{Binding PreviewDuration}"/>
+			<MediaTimeline
+				Storyboard.TargetName="PreviewAudioElement"
+				Source="{Binding AudioFileUri}"
+				BeginTime="0:0:0"
+				Duration="{Binding PreviewDuration}"
+				/>
+		</Storyboard>
+	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
 			<RowDefinition Height="43"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="400"/>
-			<ColumnDefinition/>
+			<ColumnDefinition Width="1*"/>
+			<ColumnDefinition Width="2*"/>
 		</Grid.ColumnDefinitions>
-		<StackPanel HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" Height="78">
+		<StackPanel HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100">
 			<Label Content="音声ファイル名 :" VerticalAlignment="Top" RenderTransformOrigin="0.605,-3.615" HorizontalAlignment="Right" Width="86"/>
 			<Label Content="サンプリングレート :" HorizontalAlignment="Right" VerticalAlignment="Top"/>
 			<Label Content="音声の長さ(秒) :" VerticalAlignment="Top" HorizontalAlignment="Right" Width="89"/>
+			<Label Content="波形データ数 :" HorizontalAlignment="Right"/>
+			<Label Content="出力ピクセル数 :" HorizontalAlignment="Right"/>
+			<Label Content="データ数/ピクセル :" HorizontalAlignment="Right"/>
+			<Label Content="出力テクスチャ数 :" HorizontalAlignment="Right"/>
 		</StackPanel>
-		<StackPanel Margin="110,10,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="76">
+		<StackPanel Margin="110,10,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="185">
 			<Label Content="{Binding FileName}" Margin="0,0,-491,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 			<Label Content="{Binding SamplingRate}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 			<Label Content="{Binding MusicLength}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+			<Label Content="{Binding MusicSampleLengh}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+			<Label Content="{Binding OutputPixcelCount}"/>
+			<Label Content="{Binding DataPerPixcel}"/>
+			<Label Content="{Binding OutputTextureCount}"/>
 		</StackPanel>
 		<StackPanel IsEnabled="{Binding IsEnableUI}" HorizontalAlignment="Left" Margin="10,10,0,10" Orientation="Horizontal" Width="185" Grid.Row="1">
-			<Button Content="開く" Command="{Binding SelectAudioFile}" CommandParameter="{Binding Model}" HorizontalAlignment="Left" Width="75"/>
-			<Button Content="テクスチャの書き出し" Command="{Binding ExportTexture}" CommandParameter="{Binding Model}" HorizontalAlignment="Left" Margin="10,0,-14,0" Width="114"/>
+			<Button Content="開く" Command="{Binding SelectAudioFileCommand}" CommandParameter="{Binding Model}" HorizontalAlignment="Left" Width="75"/>
+			<Button Content="テクスチャの書き出し" Command="{Binding ExportTextureCommand}" CommandParameter="{Binding Model}" HorizontalAlignment="Left" Margin="10,0,-14,0" Width="114"/>
 		</StackPanel>
 
 		<ProgressBar Value="{Binding Progress, Mode=OneWay}" Margin="225,10,7,10" Grid.Row="1"/>
-		<Button Content="プレビュー" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,10" Grid.Row="1" Width="73" />
+		<Button Content="プレビュー" IsEnabled="{Binding IsEnablePreview}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,10" Grid.Row="1" Width="73" >
+			<Button.Triggers>
+				<EventTrigger RoutedEvent="Button.Click">
+					<BeginStoryboard Storyboard="{Binding Source={StaticResource ShaderAnimationStoryBoard}}"/>
+				</EventTrigger>
+			</Button.Triggers>
+		</Button>
 		<Grid Grid.Column="1" Background="Black">
-			<Rectangle Grid.Column="1" Fill="Black" Stroke="Black" Visibility="Hidden">
+			<MediaElement x:Name="PreviewAudioElement"/>
+			<Rectangle Grid.Column="1" Fill="Black" Stroke="Black">
 				<Rectangle.Effect>
-					<effect:SpectrumAnalyzerEffect ShaderFile=".\SimpleSpectrumAnalyzer.ps" Seq="0">
+					<effect:SpectrumAnalyzerEffect x:Name="PreviewShader" ShaderFile=".\SimpleSpectrumAnalyzer.ps" Seq="-1">
+						<effect:SpectrumAnalyzerEffect.AudioTex>
+							<ImageBrush ImageSource="{Binding AudioTexSource}"/>
+						</effect:SpectrumAnalyzerEffect.AudioTex>
 					</effect:SpectrumAnalyzerEffect>
 				</Rectangle.Effect>
 			</Rectangle>
+		</Grid>
+		<Grid Margin="10,192,10,0">
+			<ComboBox ItemsSource="{Binding WindowFunctions}" DisplayMemberPath="Name"
+					  SelectedItem="{Binding SelectedWindowFunction}"
+					  HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="140"/>
+
+			<ComboBox ItemsSource="{Binding Resolutions}" DisplayMemberPath="Value"
+					  SelectedItem="{Binding SelectedSampleResolution}"
+					  HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="140"/>
+
+			<ComboBox ItemsSource="{Binding Resolutions}" DisplayMemberPath="Value" 
+					  SelectedItem="{Binding SelectedTextureResolutionX}"
+					  HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="140"/>
+
+			<ComboBox ItemsSource="{Binding Resolutions}" DisplayMemberPath="Value"
+					  SelectedItem="{Binding SelectedTextureResolutionY}"
+					  HorizontalAlignment="Left" Margin="155,64,0,0" VerticalAlignment="Top" Width="140"/>
+			<custom:Spin Value="{Binding LineCount}" Minimum="1" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Width="99" RenderTransformOrigin="0.212,2.423"/>
+			<CheckBox IsChecked="{Binding IsContinuousData}" Content="連続したデータを生成する" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top"/>
+
 		</Grid>
 	</Grid>
 </Window>

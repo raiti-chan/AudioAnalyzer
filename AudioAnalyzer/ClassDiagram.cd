@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AudioAnalyzer.UI.AudioAnalyzerViewModel">
+    <Position X="14.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAkAAAAAAAAAAAAAEDAAACgACAAAAAAAgAAADECIA=</HashCode>
+      <FileName>UI\AudioAnalyzerViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Model" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AudioAnalyzer.UI.AudioAnalyzerModel">
+    <Position X="11.5" Y="0.5" Width="2.5" />
+    <AssociationLine Name="AudioTexture" Type="AudioAnalyzer.AudioTexture" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.5" Y="3.073" />
+        <Point X="12.5" Y="4.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.137" Y="0.06" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="SelectAudioFileCommand" Type="AudioAnalyzer.UI.Command.SelectAudioFileCommand" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.5" Y="1.934" />
+        <Point X="11.125" Y="1.934" />
+        <Point X="11.125" Y="2.938" />
+        <Point X="9" Y="2.938" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AEAAkEAAAAAAAAAAIAACAAACgAAIAAAAAAAAAACAAIA=</HashCode>
+      <FileName>UI\AudioAnalyzerModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AudioFile" />
+      <Property Name="AudioTexture" />
+      <Property Name="SelectAudioFileCommand" />
+      <Property Name="ExportTextureCommand" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AudioAnalyzer.UI.Effect.SpectrumAnalyzerEffect">
+    <Position X="18.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAABAAAAAAAAgAAAAEAAAAAAAAAAAAAQAE=</HashCode>
+      <FileName>UI\Effect\SpectrumAnalyzerEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioAnalyzer.UI.Command.ExportTextureCommand">
+    <Position X="6.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\Command\ExportTextureCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AudioAnalyzer.UI.Command.SelectAudioFileCommand">
+    <Position X="6.75" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\Command\SelectAudioFileCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AudioAnalyzer.AudioTexture">
+    <Position X="11.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAABAAEAAAACAAAAEAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AudioTexture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioAnalyzer.AudioFile">
+    <Position X="13.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAABQAAAAAAAAAAgAABAAABAAAA=</HashCode>
+      <FileName>AudioFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioAnalyzer.Util.Enumeration">
+    <Position X="20.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAQEgAAgAAAAAAAAAIAAAgAAAAAAAAA=</HashCode>
+      <FileName>Util\Enumeration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AudioAnalyzer.WindowFunctions">
+    <Position X="20.5" Y="3.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="AudioAnalyzer.WindowFunctions.RectangularWindowFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowFunc.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="AudioAnalyzer.WindowFunctions.HannWindowFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowFunc.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="AudioAnalyzer.WindowFunctions.HammingWindowFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowFunc.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="AudioAnalyzer.WindowFunctions.BlackmanWindowFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowFunc.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="AudioAnalyzer.WindowFunctions.NuttallWindowFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowFunc.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="AudioAnalyzer.WindowFunctions.BartlettHannWindowFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowFunc.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="AudioAnalyzer.WindowFunctions.BlackmanHarrisWindowFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowFunc.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="AudioAnalyzer.WindowFunctions.BlackmanNuttallWindowFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowFunc.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WindowFunc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioAnalyzer.WindowFunction">
+    <Position X="18.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAgAAAAAAABAAAAACEAQAAAAAAACAACAgQAAAAAA=</HashCode>
+      <FileName>WindowFunc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="AudioAnalyzer.IWindowFunction">
+    <Position X="20.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WindowFunc.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Migu 1M" Size="9" />
+</ClassDiagram>

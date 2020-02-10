@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 
 namespace AudioAnalyzer.UI {
 	/// <summary>
@@ -29,9 +28,24 @@ namespace AudioAnalyzer.UI {
 		public bool IsEnableUI => this.Model.IsEnableUI;
 
 		/// <summary>
+		/// プレビューボタンの状態
+		/// </summary>
+		public bool IsEnablePreview => this.Model.IsEnablePreview;
+
+		/// <summary>
 		/// ファイル名
 		/// </summary>
 		public string FileName => this.Model.AudioFile == null ? "音声ファイルが選択されていません" : this.Model.AudioFile.FileName;
+
+		/// <summary>
+		/// 音声ファイルへのUri
+		/// </summary>
+		public Uri AudioFileUri => this.Model.AudioFile == null ? null : new Uri(this.Model.AudioFile.FilePath);
+
+		/// <summary>
+		/// 音声テクスチャのオーディオソース
+		/// </summary>
+		public ImageSource AudioTexSource => this.Model.AudioTexSource;
 
 		/// <summary>
 		/// サンプリングレート
@@ -41,12 +55,95 @@ namespace AudioAnalyzer.UI {
 		/// <summary>
 		/// 音声ファイルの長さ(秒)
 		/// </summary>
-		public string MusicLength => this.Model.AudioFile == null ? "Null" : this.Model.AudioFile.MusicLength.ToString() + " 秒";
+		public string MusicLength => this.Model.AudioFile == null ? "Null" : this.Model.AudioFile.MusicTime.TotalSeconds.ToString("F1") + " 秒";
+
+		/// <summary>
+		/// 音声ファイルのサンプル数
+		/// </summary>
+		public string MusicSampleLengh => this.Model.AudioFile == null ? "Null" : this.Model.AudioFile.SampleLength.ToString();
+
+		/// <summary>
+		/// 出力するX方向へのピクセル数
+		/// </summary>
+		public string OutputPixcelCount => this.Model.OutputPixcelCount.ToString();
+
+		/// <summary>
+		/// 音声のサンプル数 / X方向への出力ピクセル数
+		/// </summary>
+		public string DataPerPixcel => this.Model.DataPerPixcel == -1 ? "N/a" : this.Model.DataPerPixcel.ToString("F1");
+
+		/// <summary>
+		/// 出力するテクスチャの枚数
+		/// </summary>
+		public string OutputTextureCount => this.Model.OutputTextureCount.ToString();
+
+		/// <summary>
+		/// FFTの際に使用する窓関数の種類リスト
+		/// </summary>
+		public IEnumerable<WindowFunction> WindowFunctions { get; } = Util.Enumeration.GetAll<WindowFunction>();
+
+		/// <summary>
+		/// 解像度リスト
+		/// </summary>
+		public IEnumerable<Resolution> Resolutions { get; } = Util.Enumeration.GetAll<Resolution>();
+
+		/// <summary>
+		/// 選択中の窓関数
+		/// </summary>
+		public WindowFunction SelectedWindowFunction {
+			get => this.Model.SelectedWindowFunction;
+			set => this.Model.SelectedWindowFunction = value;
+		}
+
+		/// <summary>
+		/// 周波数分解能
+		/// </summary>
+		public Resolution SelectedSampleResolution {
+			get => this.Model.SelectedSampleResolution;
+			set => this.Model.SelectedSampleResolution = value;
+		}
+
+		/// <summary>
+		/// テクスチャのX解像度
+		/// </summary>
+		public Resolution SelectedTextureResolutionX {
+			get => this.Model.SelectedTextureResolutionX;
+			set => this.Model.SelectedTextureResolutionX = value;
+		}
+
+		/// <summary>
+		/// テクスチャのY解像度
+		/// </summary>
+		public Resolution SelectedTextureResolutionY {
+			get => this.Model.SelectedTextureResolutionY;
+			set => this.Model.SelectedTextureResolutionY = value;
+		}
+		
+		/// <summary>
+		/// 出力するテクスチャライン数
+		/// </summary>
+		public int LineCount {
+			get => this.Model.LineCount;
+			set => this.Model.LineCount = value;
+		}
+
+		/// <summary>
+		/// FFTの解析にに使用するデータを連続的にするか否か
+		/// </summary>
+		public bool IsContinuousData {
+			get => this.Model.IsContinuousData;
+			set => this.Model.IsContinuousData = value;
+		}
 
 		/// <summary>
 		/// 書き出しの進行度
 		/// </summary>
 		public int Progress => this.Model.AudioFile == null ? 0 : this.Model.Progress;
+
+		/// <summary>
+		/// プレビューアニメーションの時間
+		/// </summary>
+		public Duration PreviewDuration => this.Model.AudioFile == null ? new TimeSpan(0) : this.Model.AudioFile.MusicTime;
 
 		#endregion
 
@@ -55,12 +152,12 @@ namespace AudioAnalyzer.UI {
 		/// <summary>
 		/// ファイル選択コマンド
 		/// </summary>
-		public SelectAudioFile SelectAudioFile => this.Model.SelectAudioFile;
+		public SelectAudioFileCommand SelectAudioFileCommand => this.Model.SelectAudioFileCommand;
 
 		/// <summary>
 		/// テクスチャ書き出しコマンド
 		/// </summary>
-		public ExportTexture ExportTexture => this.Model.ExportTexture;
+		public ExportTextureCommand ExportTextureCommand => this.Model.ExportTextureCommand;
 
 		#endregion
 

@@ -29,43 +29,57 @@ namespace AudioAnalyzer {
 		public string FileName { get; }
 
 		/// <summary>
+		/// 音声ファイルパス
+		/// </summary>
+		public string FilePath { get; }
+
+		/// <summary>
 		/// 音声ファイルのサンプリングレート
 		/// </summary>
 		public int SamplingRate => this.audioStream.WaveFormat.SampleRate;
 
 		/// <summary>
-		/// 音声ファイルの長さ(秒)
+		/// 音声ファイルのサンプル数
 		/// </summary>
-		public int MusicLength => (int)Math.Ceiling((double)this.audioStream.Length / this.audioStream.WaveFormat.AverageBytesPerSecond);
+		public long SampleLength { get; }
 
 		/// <summary>
-		/// 音声ファイルから生成されたテクスチャ
+		/// 音声ファイルの長さ
 		/// </summary>
-		public AudioTexture AudioTexture { get; private set; }
+		public TimeSpan MusicTime { get; }
 
 		#endregion
 
 		/// <summary>
 		/// ファイル名を指定し、音声ファイルオブジェクトを初期化します。
 		/// </summary>
-		/// <param name="fileName">音声ファイル名</param>
-		public AudioFile(string fileName) {
-			this.FileName = fileName;
-			this.audioStream = new AudioFileReader(fileName) {
+		/// <param name="filePath">音声ファイル名</param>
+		public AudioFile(string filePath) {
+			this.FilePath = filePath;
+			this.FileName = Path.GetFileName(filePath);
+			this.audioStream = new AudioFileReader(filePath) {
 				Position = 0
 			};
+			this.SampleLength = this.audioStream.Length / this.audioStream.BlockAlign * this.audioStream.WaveFormat.Channels;
+			double time = (double)this.audioStream.Length / this.audioStream.WaveFormat.AverageBytesPerSecond;
+			this.MusicTime = new TimeSpan((long)(time * 10e6));
 		}
 
-		public Task ExportTextureAsync(IProgress<int> progress) => Task.Run(() => {
+		/// <summary>
+		/// FFTを実行し、AudioTextureに書き出します。
+		/// </summary>
+		/// <param name="progress">進捗更新用のオブジェクト</param>
+		/// <param name="texture">書き込むAudioTextureインスタンス</param>
+		/// <returns></returns>
+		public Task ExportTextureAsync(IProgress<int> progress, AudioTexture texture) => Task.Run(() => {
 			progress.Report(0);
 
 			int blockLength = 256; // サンプルブロックのデータ長
 			float[] audioData = new float[this.audioStream.Length / this.audioStream.BlockAlign * this.audioStream.WaveFormat.Channels];
 			Complex[] buffer = new Complex[blockLength]; // サンプル用バッファー
 
-			this.audioStream.Read(audioData, 0, audioData.Length);
-			AudioTexture texture = new AudioTexture();
-
+			this.audioStream.Read(audioData, 0, audioData.Length); // データを全部読み込んでるから重い
+			#region old
 			/*
 			int fftPos = 0;
 			int putPix = 0;
@@ -88,10 +102,11 @@ namespace AudioAnalyzer {
 				
 			}
 			*/
-			
+			#endregion
+
 			int pixcel = audioData.Length / 8192;
 			int pixcelIndex = 0;
-			for (int i = 0; i < audioData.Length; i+= pixcel) {
+			for (int i = 0; i < audioData.Length; i += pixcel) {
 				int audioDataStartIndex = i - (blockLength / 2); // サンプルブロックの先頭インデックス
 				for (int j = 0; j < buffer.Length; j++) {
 					int audioDataIndex = audioDataStartIndex + j; // サンプルデータのインデックス
@@ -108,17 +123,13 @@ namespace AudioAnalyzer {
 					double intensityDB = 10.0 * Math.Log(diagonal);
 					double percent = 1.0 - ((intensityDB < -60.0) ? 1.0 : intensityDB / -60.0);
 					levels[j] = percent;
-					texture.Put(pixcelIndex, j, percent);
 				}
-				//texture.Put(pixcelIndex, levels);
+				texture.PutDataX(pixcelIndex, levels);
 				pixcelIndex++;
 				progress.Report((int)((double)i / audioData.Length * 100));
 			}
-			
 
-			texture.SaveTexture(@"./test.png");
-			this.AudioTexture = texture;
-			progress.Report(0);
+			progress.Report(100);
 
 		});
 	}

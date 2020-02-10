@@ -62,10 +62,18 @@
     </ApplicationDefinition>
     <Compile Include="AudioFile.cs" />
     <Compile Include="AudioTexture.cs" />
-    <Compile Include="UI\Command\ExportTexture.cs" />
-    <Compile Include="UI\Command\SelectAudioFile.cs" />
+    <Compile Include="Resolution.cs" />
+    <Compile Include="UI\Command\ExportTextureCommand.cs" />
+    <Compile Include="UI\Command\SelectAudioFileCommand.cs" />
+    <Compile Include="UI\CustomControl\Spin.cs" />
+    <Compile Include="Util\Enumeration.cs" />
+    <Compile Include="WindowFunc.cs" />
     <Content Include="UI\Effect\Shader\SimpleSpectrumAnalyzer.hlsl" />
     <Compile Include="UI\Effect\SpectrumAnalyzerEffect.cs" />
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\AudioAnalyzerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +107,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

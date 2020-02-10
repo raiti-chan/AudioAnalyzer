@@ -6,7 +6,7 @@ namespace AudioAnalyzer.UI.Command {
 	/// <summary>
 	/// 音声ファイルを選択します。
 	/// </summary>
-	internal class SelectAudioFile : ICommand {
+	internal class SelectAudioFileCommand : ICommand {
 
 		/// <summary>
 		/// コマンドの有効無効を通知するイベント。
@@ -17,13 +17,12 @@ namespace AudioAnalyzer.UI.Command {
 		/// コマンドの有効無効の変更をViewに通知します。
 		/// </summary>
 		public void OnCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-
-
+		
 		/// <summary>
 		/// ファイルを開くボタンのコマンド
 		/// </summary>
 		/// <param name="model">モデル</param>
-		public SelectAudioFile() {
+		public SelectAudioFileCommand() {
 
 		}
 
@@ -33,7 +32,6 @@ namespace AudioAnalyzer.UI.Command {
 		/// <param name="parameter">コマンドで使用されたデータ</param>
 		/// <returns></returns>
 		public bool CanExecute(object parameter) => true;
-
 
 		/// <summary>
 		/// コマンドを実行します。

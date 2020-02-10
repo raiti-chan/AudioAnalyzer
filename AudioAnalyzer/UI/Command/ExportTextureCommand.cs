@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace AudioAnalyzer.UI.Command {
-	class ExportTexture : ICommand{
+	class ExportTextureCommand : ICommand{
 
 		/// <summary>
 		/// コマンドの有効無効を通知するイベント。
@@ -18,7 +18,7 @@ namespace AudioAnalyzer.UI.Command {
 		/// <summary>
 		/// テクスチャ書き出しコマンド
 		/// </summary>
-		public ExportTexture() {
+		public ExportTextureCommand() {
 
 		}
 
@@ -46,14 +46,22 @@ namespace AudioAnalyzer.UI.Command {
 
 			Progress<int> progress = new Progress<int>(percent => {
 				model.Progress = percent;
-				model.OnPropertyChanded(null);
+				model.OnPropertyChanded(nameof(model.Progress));
 			});
+			AudioTexture texture = new AudioTexture(8192, 128);
+			
+			await model.AudioFile.ExportTextureAsync(progress, texture);
 
-			await model.AudioFile.ExportTextureAsync(progress);
-
+			
+			texture.SaveTexture("./test.png");
 			MessageBox.Show("テクスチャの書き出しが完了しました。", "", MessageBoxButton.OK, MessageBoxImage.Information);
+			
+			model.AudioTexture = texture;
+			model.AudioTexSource = texture.CreateBitmapSource();
 			model.IsEnableUI = true;
-			model.OnPropertyChanded(nameof(model.IsEnableUI));
+			model.IsEnablePreview = true;
+			model.Progress = 0;
+			model.OnPropertyChanded(null);
 		}
 
 
